@@ -22,7 +22,7 @@ protocol SignatureComparatorProtocol {
 
 
 public class SignatureComparator: SignatureComparatorProtocol {
-    func compare(_ imageOne: UIImage,
+    public func compare(_ imageOne: UIImage,
                  to imageTwo: UIImage,
                  completion: @escaping (Double?, String?) -> ()) {
         SignatureDriver.compare(imageOne, imageTwo) { percentage, error in
