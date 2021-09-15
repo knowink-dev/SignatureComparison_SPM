@@ -147,7 +147,7 @@ class TestSignatureVC: UIViewController {
                 self.secondaryLoader.startAnimating()
                 self.secondarySignatureView.isUserInteractionEnabled = false
                 self.comparePressed = true
-                SignatureComparison.compareSignatures(sourceImg,
+                SignatureDriver.compareSignatures(sourceImg,
                                                   secondaryImg,
                                                   true) { (percentage,
                                                            error,

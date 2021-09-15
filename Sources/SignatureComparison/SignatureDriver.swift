@@ -9,9 +9,14 @@ import Foundation
 import UIKit
 
 
-public class SignatureComparison{
+public class SignatureDriver{
     
     
+    /// Public fucntion to compare two signatures together and provide a confidence level of how similar the images are.
+    /// - Parameters:
+    ///   - primarySignature: Source image to compare against.
+    ///   - secondarySignature: Secondary image that is compared against the source image.
+    ///   - handler: Callback value providing the signature comparison percentage, and an error if one or more occured.
     public class func compare(_ primarySignature: UIImage,
                                   _ secondarySignature: UIImage,
                                   _ handler: @escaping (_ percentage: Double?,
@@ -30,6 +35,13 @@ public class SignatureComparison{
         }
     }
     
+    
+    /// Project specfific function that spins off separate image parsing operations and calculates the confidence score based on the vectors and angles that are returned.
+    /// - Parameters:
+    ///   - primarySignature: Source image to compare against
+    ///   - secondarySignature: Secondary image that is compared against the source image.
+    ///   - isDebugMode: Boolean value that if turned on will provide the debug images for each image parsing phase.
+    ///   - handler: Callback value providing the signature comparison percentage, and an error if one or more occured.
     class func compareSignatures(_ primarySignature: UIImage,
                            _ secondarySignature: UIImage,
                            _ isDebugMode: Bool = false,
@@ -104,8 +116,13 @@ public class SignatureComparison{
     }
 }
 
-private extension SignatureComparison{
+private extension SignatureDriver{
     
+    /// Compares the vector's angles for each image against each other. Every vector finds the closest angle to compare itself to.
+    /// - Parameters:
+    ///   - numImg: Secondary Image
+    ///   - denImg: Source Image
+    /// - Returns: Confidence level for the signature comparison.
     class func computePercentage(numImg: ParsedImage, denImg: ParsedImage) -> Double{
         var totalPercentage = 0.0
         for numVector in numImg.vectors{

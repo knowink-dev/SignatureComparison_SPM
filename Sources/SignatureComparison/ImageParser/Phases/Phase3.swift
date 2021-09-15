@@ -405,8 +405,8 @@ internal extension ParseImage{
     }
     
     
-    /// Looks at the second level of neighboring pixels and if more than three exist there is most likley and intersection.
-    /// - Parameter currentPixel: Current pixel and used to grab it's neighboring pixels at the second level.
+    /// Looks at the second level of neighboring pixels and if more than three exist there is most likley an intersection.
+    /// - Parameter currentPixel: Current pixel,  used to grab it's neighboring pixels at the second level.
     /// - Returns: The collection of neighboring pixels at the second level.
     func checkNeighborsForIntersection(currentPixel: ImagePixel) -> [ImagePixel]{
         var intersectingPixels: [ImagePixel] = []
