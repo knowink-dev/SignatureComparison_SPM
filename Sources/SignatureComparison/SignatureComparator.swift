@@ -22,6 +22,9 @@ protocol SignatureComparatorProtocol {
 
 
 open class SignatureComparator: SignatureComparatorProtocol {
+    
+    public init() {}
+    
     open func compare(_ imageOne: UIImage,
                  to imageTwo: UIImage,
                  completion: @escaping (Double?, String?) -> ()) {
