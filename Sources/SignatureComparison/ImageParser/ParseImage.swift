@@ -73,8 +73,7 @@ class ParseImage{
         let phase3Interval: Double = Double(CFAbsoluteTimeGetCurrent() - startTiming)
                 
         //MARK: - Phase 4 - Process all vectors and mapped them to their appropriate quadrants.
-        parsedImageObj.vectors = parseImagePhase4().0
-        parsedImageObj.silentErrors = parseImagePhase4().1
+        parsedImageObj.vectors = parseImagePhase4()
         let phase4Interval: Double = Double(CFAbsoluteTimeGetCurrent() - startTiming)
         
         //MARK: - Debug Info

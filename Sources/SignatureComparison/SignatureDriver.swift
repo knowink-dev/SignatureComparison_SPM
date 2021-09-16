@@ -19,19 +19,12 @@ public class SignatureDriver{
     ///   - handler: Callback value providing the signature comparison percentage, and an error if one or more occured.
     public class func compare(_ primarySignature: UIImage,
                                   _ secondarySignature: UIImage,
-                                  _ handler: @escaping (_ percentage: Double?,
-                                                        _ error: String?) -> Void) {
+                                  _ handler: @escaping (Swift.Result<Double, Error>) -> Void) {
         compareSignatures(primarySignature,
                           secondarySignature,
-                          false) { percentage,
-                                   breakingErrors,
-                                   parsedImageObjs in
-            if breakingErrors != nil{
-                handler(percentage, breakingErrors)
-            } else {
-                let silentErrors = parsedImageObjs.map({$0.map({$0.silentErrors.joined(separator: ",")}).joined(separator: "|")})
-                handler(percentage, silentErrors)
-            }
+                          false) { result,
+                                   parsedImages in
+            handler(result)
         }
     }
     
@@ -45,8 +38,7 @@ public class SignatureDriver{
     class func compareSignatures(_ primarySignature: UIImage,
                            _ secondarySignature: UIImage,
                            _ isDebugMode: Bool = false,
-                           _ handler: @escaping (_ percentage: Double?,
-                                                 _ breakingError: String?,
+                           _ handler: @escaping (Swift.Result<Double, Error>,
                                                  _ imageObj: [ParsedImage]?) -> Void) {
         let parseImgQueue = OperationQueue()
         parseImgQueue.maxConcurrentOperationCount = 2
@@ -64,10 +56,10 @@ public class SignatureDriver{
                 case .failure(let error):
                     switch error {
                     case .invalidImageSupplied(let errorMessage):
-                        handler(nil, "INVALID PRIMARY IMAGE SUPPLIED: \(errorMessage)", nil)
+                        handler(.failure(NSError(domain: "INVALID PRIMARY IMAGE SUPPLIED: \(errorMessage)", code: 0, userInfo: nil)), nil)
                         parseImgQueue.cancelAllOperations()
                     case .unableToParseImage(let errorMessage):
-                        handler(nil,"PRIMARY IMAGE PARSING ERROR: \(errorMessage)", nil)
+                        handler(.failure(NSError(domain: "PRIMARY IMAGE PARSING ERROR: \(errorMessage)", code: 0, userInfo: nil)), nil)
                         parseImgQueue.cancelAllOperations()
                     }
                 }
@@ -83,10 +75,10 @@ public class SignatureDriver{
                 case .failure(let error):
                     switch error {
                     case .invalidImageSupplied(let errorMessage):
-                        handler(nil, "INVALID SECONDARY IMAGE SUPPLIED: \(errorMessage)", nil)
+                        handler(.failure(NSError(domain: "INVALID SECONDARY IMAGE SUPPLIED: \(errorMessage)", code: 0, userInfo: nil)), nil)
                         parseImgQueue.cancelAllOperations()
                     case .unableToParseImage(let errorMessage):
-                        handler(nil,"SECONDARY IMAGE PARSING ERROR: \(errorMessage)", nil)
+                        handler(.failure(NSError(domain: "SECONDARY IMAGE PARSING ERROR: \(errorMessage)", code: 0, userInfo: nil)), nil)
                         parseImgQueue.cancelAllOperations()
                     }
                 }
@@ -99,18 +91,18 @@ public class SignatureDriver{
                     if primaryImage.vectors.count > 0{
                         overallPercentage = computePercentage(numImg: secondaryImage, denImg: primaryImage)
                     } else {
-                        handler(nil, "ERROR: Unable to Parse Image. No lines were recognized for the Primary Image supplied.", nil)
+                        handler(.failure(NSError(domain: "ERROR: Unable to Parse Image. No lines were recognized for the Primary Image supplied.", code: 0, userInfo: nil)), nil)
                     }
                 } else {
                     if secondaryImage.vectors.count > 0{
                         overallPercentage = computePercentage(numImg: primaryImage, denImg: secondaryImage)
                     } else {
-                        handler(nil, "ERROR: Unable to Parse Image. No lines were recognized for the Secondary Image supplied.", nil)
+                        handler(.failure(NSError(domain: "ERROR: Unable to Parse Image. No lines were recognized for the Secondary Image supplied.", code: 0, userInfo: nil)), nil)
                     }
                 }
-                handler(overallPercentage, nil, [primaryImage, secondaryImage])
+                handler(.success(overallPercentage), [primaryImage, secondaryImage])
             } else {
-                handler(nil, "ERROR: Empty parsed image objects", nil)
+                handler(.failure(NSError(domain: "ERROR: Empty parsed image objects", code: 0, userInfo: nil)), nil)
             }
         }
     }
