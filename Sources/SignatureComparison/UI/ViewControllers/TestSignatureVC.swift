@@ -1,8 +1,7 @@
 //
 //  TestSignatureVC.swift
-//  MetalAndImages
 //
-//  Created by Paul Mayer on 7/22/21.
+//  Created by Paul Mayer on 9/23/21.
 //
 
 import UIKit
@@ -45,7 +44,7 @@ class TestSignatureVC: UIViewController {
         signatureView.delegate = self
         originalSignatureViewHeight = signatureView.frame.height
         secondarySignatureView.drawColor = .black
-        secondarySignatureView.drawWidth = 3
+        secondarySignatureView.drawWidth = 6
         secondarySignatureView.delegate = self
         
         imgScrollView.delegate = self
@@ -59,9 +58,9 @@ class TestSignatureVC: UIViewController {
         secondaryImgScrollView.tag = 1
         
         loader.isHidden = true
-//        loader.style = .medium
+        loader.style = .large
         secondaryLoader.isHidden = true
-//        secondaryLoader.style = .medium
+        secondaryLoader.style = .large
         
         let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(didPanMiddleView(_:)))
         centerView.addGestureRecognizer(dragGesture)
@@ -147,37 +146,34 @@ class TestSignatureVC: UIViewController {
                 self.secondaryLoader.startAnimating()
                 self.secondarySignatureView.isUserInteractionEnabled = false
                 self.comparePressed = true
+                
                 SignatureDriver.compareSignatures(sourceImg,
-                                                  secondaryImg,
-                                                  true) { result,
-                                                          parsedImgObjects in
+                                                  secondaryImg) { result, parsedImages in
                     DispatchQueue.main.async {
-                        switch result {
-                        case .success(let percent):
-                            if let parsedImgs = parsedImgObjects, parsedImgs.count > 0{
-                                sender.isEnabled = true
-                                self.loader.isHidden = true
-                                self.loader.stopAnimating()
-                                self.signatureView.isUserInteractionEnabled = true
-                                self.lblSignHere.isHidden = false
-                                self.secondaryLoader.isHidden = true
-                                self.secondaryLoader.stopAnimating()
-                                self.secondarySignatureView.isUserInteractionEnabled = true
-                                self.secondaryLblSignHere.isHidden = false
+                        sender.isEnabled = true
+                        self.loader.isHidden = true
+                        self.loader.stopAnimating()
+                        self.signatureView.isUserInteractionEnabled = true
+                        self.lblSignHere.isHidden = false
+                        self.secondaryLoader.isHidden = true
+                        self.secondaryLoader.stopAnimating()
+                        self.secondarySignatureView.isUserInteractionEnabled = true
+                        self.secondaryLblSignHere.isHidden = false
+                        
+                        switch result{
+                        case .success(let percentage):
+                            if let parsedImgs = parsedImages, parsedImgs.count > 0{
                                 self.currentTopParsedImgObj = parsedImgs.first
                                 self.imgView.image = self.currentTopParsedImgObj?.debugImageDic[.phase3]
                                 self.currentBottomParsedImgObj = parsedImgs.last
                                 self.imgScrollView.zoomScale = 1.0
                                 self.secondaryImgScrollView.zoomScale = 1.0
                                 self.secondaryImgView.image = self.currentBottomParsedImgObj?.debugImageDic[.phase3]
-                                self.showAlert(message: "\(Int(round(percent * 100)))% Match")
-                            } else {
-                                self.showAlert(message: "Unknown Result Occurred, empty parsed images object")
                             }
+                            self.showAlert(message: "\(Int(round(percentage * 100)))% Match")
                         case .failure(let error):
                             self.showAlert(message: error.localizedDescription)
                         }
-                        
                     }
                 }
             } else{
@@ -287,3 +283,4 @@ extension TestSignatureVC : DropDownDelegate{
         }
     }
 }
+

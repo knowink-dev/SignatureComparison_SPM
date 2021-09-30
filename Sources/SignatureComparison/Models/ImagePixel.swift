@@ -16,12 +16,6 @@ class ImagePixel{
     var pixelStatus: PixelStatus = .normal
     var neighbors: [ImagePixel] = []
     
-    init(_ color: PixelColor, xPos: Int, yPos: Int) {
-        self.color = color
-        self.xPos = xPos
-        self.yPos = yPos
-    }
-    
     var topLeftPix: ImagePixel?{
         didSet{
             if let pixel = topLeftPix{
@@ -77,6 +71,12 @@ class ImagePixel{
                 neighbors.append(pixel)
             }
         }
+    }
+    
+    init(_ color: PixelColor, xPos: Int, yPos: Int) {
+        self.color = color
+        self.xPos = xPos
+        self.yPos = yPos
     }
     
     func hasAtLeastOneNeighborProcessed() -> ImagePixel?{

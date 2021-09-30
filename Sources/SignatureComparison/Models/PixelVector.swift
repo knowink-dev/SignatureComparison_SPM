@@ -23,7 +23,11 @@ class PixelVector{
                 firstPixel = endPixel
                 secondPixel = startPixel
             }
-            angle = (atan((Double(secondPixel.yPos) - Double(firstPixel.yPos)) / (Double(secondPixel.xPos) - Double(firstPixel.xPos))) * (180 / Double.pi)) + 90
+            if secondPixel.xPos > firstPixel.xPos{
+                angle = (atan(((Double(secondPixel.yPos) - Double(firstPixel.yPos))) / (Double(firstPixel.xPos) - Double(secondPixel.xPos))) * (180 / Double.pi)) + 90
+            } else{
+                angle = (atan((Double(secondPixel.yPos) - Double(firstPixel.yPos)) / (Double(secondPixel.xPos) - Double(firstPixel.xPos))) * (180 / Double.pi)) + 90
+            }
         }
     }
 }

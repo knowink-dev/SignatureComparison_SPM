@@ -9,6 +9,5 @@ import UIKit
 
 public class ParsedImage {
     var vectors: [PixelVector] = []
-    var silentErrors: [String] = []
     var debugImageDic: [DebugImageName: UIImage] = [:]
 }
