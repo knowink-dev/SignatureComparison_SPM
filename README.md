@@ -1,6 +1,6 @@
 # SignatureComparison
 
-DESCRIPTION:\n
+DESCRIPTION:<br />
 This package is used for comparing two image signatures together and providing a confidence level from 0-100%. Currently it only supports images that have a color space of either MonoChrome or RGB. It also supports images of different aspect ratios and stroke sizes. When comparing images the SPM spins off separate operations and or threads to process each image. Each image then goes through 4 phases of parsing to measure the number vectors and angles it has. 
 
 Phase 1: Converts the image to black and white pixels only. Also initializes key variables for the image parser. 
