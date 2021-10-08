@@ -8,9 +8,8 @@
 import Foundation
 
 class ImagePixel{
-    
-    var color: PixelColor = .clear
-    var debugColor: PixelColor?
+    var color: PixelColor!
+    var debugColor: PixelColor!
     var xPos: Int
     var yPos: Int
     var pixelStatus: PixelStatus = .normal
@@ -75,6 +74,7 @@ class ImagePixel{
     
     init(_ color: PixelColor, xPos: Int, yPos: Int) {
         self.color = color
+        self.debugColor = color
         self.xPos = xPos
         self.yPos = yPos
     }

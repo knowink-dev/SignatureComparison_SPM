@@ -11,6 +11,7 @@ class PixelVector{
     var pixelPath: [ImagePixel] = []
     var angle: Double = 0.0
     var processed = false
+    var minXPos: Int!
     var startPixel: ImagePixel!
     var endPixel: ImagePixel!{
         didSet{
@@ -28,6 +29,7 @@ class PixelVector{
             } else{
                 angle = (atan((Double(secondPixel.yPos) - Double(firstPixel.yPos)) / (Double(secondPixel.xPos) - Double(firstPixel.xPos))) * (180 / Double.pi)) + 90
             }
+            minXPos = (startPixel.xPos < endPixel.xPos) ? startPixel.xPos : endPixel.xPos
         }
     }
 }

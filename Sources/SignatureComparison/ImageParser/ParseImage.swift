@@ -13,16 +13,16 @@ class ParseImage{
     /// Phase 1 Debug Image
     var imagePixelsPhase1: [[UInt32]]!
     
-    #if DEBUG
+    #if DEBUG || FAKE_RELEASE
     /// Phase 2 Debug Image
     var imagePixelsPhase2: [[UInt32]]!
     
     /// Phase 3 Debug Image
     var imagePixelsPhase3: [[UInt32]]!
-    #endif
     
     /// Phase 4 Debug Image
     var imagePixelsPhase4: [[UInt32]]!
+    #endif
     
     /// Active Pixels used in phases 2-4
     var imagePixelsArray: [ImagePixel] = []
@@ -31,8 +31,8 @@ class ParseImage{
     var pixelImageMap: [PixelCoordinate:ImagePixel] = [:]
     
     
-    /// Parses an image pixel data of RGB and Monochrome. Image parser goes through 4 phases of destructing and constructing the image
-    /// in order to form lines / vectors with measurable angles to be used for comparison.
+    /// Parses an image pixel data of RGB and Monochrome. Image parser goes through 4 phases of destructing and constructing in order
+    ///  to form lines / vectors with measurable angles to be used for comparison.
     /// - Parameters:
     ///   - inputImage: Image to parse
     /// - Returns: Image object that was parsed during execution.
@@ -50,27 +50,27 @@ class ParseImage{
                 repeating: UInt32.max,
                 count: cgImage.width),
             count: cgImage.height)
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
         imagePixelsPhase2 = imagePixelsPhase1
         imagePixelsPhase3 = imagePixelsPhase2
-        #endif
         imagePixelsPhase4 = imagePixelsPhase1
+        #endif
         
         let parsedImageObj = ParsedImage()
 
         //MARK: - Phase 1 - Converts image to black and white pixels only.
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
         var phaseOneStart: CFAbsoluteTime = 0
         var phase1Interval: Double = 0
         #endif
         
         if cgImage.colorSpace?.model == .rgb || cgImage.colorSpace?.model == .monochrome{
-            #if DEBUG
+            #if DEBUG || FAKE_RELEASE
             phaseOneStart = CFAbsoluteTimeGetCurrent()
             #endif
             
             parseImagePhase1(cgImage, bytes)
-            #if DEBUG
+            #if DEBUG || FAKE_RELEASE
             phase1Interval = Double(CFAbsoluteTimeGetCurrent() - phaseOneStart)
             #endif
             
@@ -79,56 +79,59 @@ class ParseImage{
         }
         
         //MARK: - Phase 2 - Delete all neighbor pixels to the left.
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
         imagePixelsPhase2 = imagePixelsPhase1
         let phaseTwoStart = CFAbsoluteTimeGetCurrent()
         #endif
         
         parseImagePhase2(cgImage)
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
         let phase2Interval = Double(CFAbsoluteTimeGetCurrent() - phaseTwoStart)
         #endif
         
         //MARK: - Phase 3 - Transform image signature into vectors.
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
         imagePixelsPhase3 = imagePixelsPhase2
         let phaseThreeStart = CFAbsoluteTimeGetCurrent()
         #endif
         
         parseImagePhase3()
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
         let phase3Interval = Double(CFAbsoluteTimeGetCurrent() - phaseThreeStart)
         #endif
         
         //MARK: - Phase 4 - Process all vectors and mapped them to their appropriate quadrants.
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
         let phaseFourStart = CFAbsoluteTimeGetCurrent()
         #endif
         
         parsedImageObj.vectors = parseImagePhase4(cgImage.height)
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
         let phase4Interval: Double = Double(CFAbsoluteTimeGetCurrent() - phaseFourStart)
         #endif
         
         //MARK: - Debug Info
-        #if DEBUG
+        #if DEBUG || FAKE_RELEASE
+        let debugInterval = CFAbsoluteTimeGetCurrent()
         let secondsPhase1 = (String(format: "%.4f", phase1Interval))
         let secondsPhase2 = (String(format: "%.4f", phase2Interval))
         let secondsPhase3 = (String(format: "%.4f", phase3Interval))
         let secondsPhase4 = (String(format: "%.4f", phase4Interval))
         let totalTime = (String(format: "%.4f", phase1Interval + phase2Interval + phase3Interval + phase4Interval))
-        
+
         debugPrint("Phase1: \(secondsPhase1)")
         debugPrint("Phase2: \(secondsPhase2)")
         debugPrint("Phase3: \(secondsPhase3)")
         debugPrint("Phase4: \(secondsPhase4)")
-        debugPrint("Total: \(totalTime)")
-        debugPrint("")
-        
+        debugPrint("Parsing Time: \(totalTime)")
+
         parsedImageObj.debugImageDic[.phase1] = generateDebugImage(pixelArray: imagePixelsPhase1, cgImage: cgImage)
         parsedImageObj.debugImageDic[.phase2] = generateDebugImage(pixelArray: imagePixelsPhase2, cgImage: cgImage)
         parsedImageObj.debugImageDic[.phase3] = generateDebugImage(pixelArray: imagePixelsPhase3, cgImage: cgImage)
         parsedImageObj.debugImageDic[.phase4] = generateDebugImage(pixelArray: imagePixelsPhase4, cgImage: cgImage)
+        let debugTime = Double(CFAbsoluteTimeGetCurrent() - debugInterval)
+        debugPrint("Debug Time: \(debugTime)")
+        debugPrint("")
         #endif
         
         return .success(parsedImageObj)
@@ -154,7 +157,7 @@ private extension ParseImage{
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         var bitmapInfo: UInt32 = CGBitmapInfo.byteOrder32Little.rawValue
         bitmapInfo |= CGImageAlphaInfo.premultipliedLast.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
-
+        
         guard let imageContext = CGContext(data: imageDataMemoryAllocation,
                                            width: width,
                                            height: height,
@@ -165,7 +168,7 @@ private extension ParseImage{
               let buffer = imageContext.data?.bindMemory(to: UInt32.self,
                                                          capacity: imageData.count)
         else { return nil}
-
+        
         for index in 0 ..< width * height {
             buffer[index] = imageData[index]
         }
