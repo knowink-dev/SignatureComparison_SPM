@@ -16,7 +16,7 @@ Call function compare(_ imageOne: UIImage, to imageTwo: UIImage, completion: @es
 This function will return a result with either a double or an error. The double comparison percentage is still in decimal format when returned and will need to be multiplied by 100 if it is to be shown accurately on the UI. <br /><br /><br />
 
 
-HOW TO DEBUG: <br /><br />
+HOW TO DEBUG: <br />
 If you would like to view the actual results from both images being parsed and used for comparison then call: <br />
     public class func compareWithDebugView(
         _ currentVC: UIViewController,
