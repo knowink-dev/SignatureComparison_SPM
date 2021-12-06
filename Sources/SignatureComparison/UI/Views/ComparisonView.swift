@@ -34,8 +34,7 @@ class ComparisonView: UIView {
     }
     
     func commonInit(){
-        let bundle = Bundle(for: ComparisonView.self)
-        let nib = UINib(nibName: "ComparisonView", bundle: bundle)
+        let nib = UINib(nibName: "ComparisonView", bundle: Bundle.module)
         contentView = nib.instantiate(withOwner: self, options: nil)[0] as? UIView
         addSubview(contentView)
         contentView.frame = self.bounds

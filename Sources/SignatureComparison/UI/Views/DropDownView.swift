@@ -86,7 +86,7 @@ class DropDownView: UIViewController, UITableViewDelegate, UITableViewDataSource
         self.tvSize = CGSize(width: tvMaxWidth, height: tvMaxHeight)
         self.tvPopUp = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), style: .grouped)
         self.tableViewTag = tag ?? 0
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: Bundle.module)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -198,7 +198,7 @@ class DropDownView: UIViewController, UITableViewDelegate, UITableViewDataSource
         tvPopUp.dataSource = self
         tvPopUp.delegate = self
         if !(customCellName.isEmpty){
-            tvPopUp.register(UINib(nibName: customCellName, bundle: nil), forCellReuseIdentifier: customCellName)
+            tvPopUp.register(UINib(nibName: customCellName, bundle: Bundle.module), forCellReuseIdentifier: customCellName)
         } else {
             tvPopUp.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         }
