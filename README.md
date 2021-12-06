@@ -16,10 +16,18 @@ Call function compare(_ imageOne: UIImage, to imageTwo: UIImage, completion: @es
 This function will return a result with either a double or an error. The double comparison percentage is still in decimal format when returned and will need to be multiplied by 100 if it is to be shown accurately on the UI. <br /><br /><br />
 
 
-NOTES:<br />
-For additional testing and experimenting with the signature comparison functionality, please use the Signature Comparison Experiment project: https://github.com/knowink-dev/SignatureComparisonExperiment<br /><br />
+HOW TO DEBUG: <br />
+If you would like to view the actual results from both images being parsed and used for comparison then call: <br />
+    public class func compareWithDebugView(
+        _ currentVC: UIViewController,
+        _ primarySignature: UIImage,
+        _ secondarySignature: UIImage){}
+<br /><br />
+The function above should only be used in Debug mode, never in Release mode.
+<br /><br />
+The ComparisonView provides all the images for the different phases so you can see the results of the image parser.
+<br /><br />
+For additional testing and experimenting with the signature comparison functionality, please use the Signature Comparison Experiment project: https://github.com/knowink-dev/SignatureComparisonExperiment<br />
 
-This project is an actual application rather than an SPM and allows you to draw and compare two signatures together. It also provides all the images for the phase so you can see the results of the image parser for each phase. Most of the code from this project was copied from that project, and it is recommended that before any new changes are added to this project that it first be tested in that one to ensure both projects stay up to date with the latest code.<br /><br />
+This project is an actual application rather than an SPM and allows you to draw and compare two signatures together. 
 
-WIP:<br />
-The UI components were also included from that project into this SPM with the intent to convert the VC to a Popup View in order to allow in project debugging images if ever needed.
