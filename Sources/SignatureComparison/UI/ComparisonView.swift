@@ -1,6 +1,6 @@
 //
 //  ComparisonView.swift
-//  SignatureComparisonExperiment
+//  SignatureComparison
 //
 //  Created by Paul Mayer on 12/3/21.
 //

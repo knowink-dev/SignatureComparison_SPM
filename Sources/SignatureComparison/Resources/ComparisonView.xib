@@ -2,20 +2,19 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComparisonView" customModule="SignatureComparisonExperiment" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComparisonView" customModule="SignatureComparison">
             <connections>
-                <outlet property="bottomImgView" destination="TWd-c2-ZQV" id="TYv-3l-jRS"/>
-                <outlet property="bottomScrollView" destination="JMX-Sf-wls" id="n10-1m-Qz5"/>
-                <outlet property="contentView" destination="iN0-l3-epB" id="Skv-06-hWz"/>
-                <outlet property="topImgView" destination="qNQ-qQ-pB1" id="stE-FL-tXL"/>
-                <outlet property="topScrollView" destination="IWW-4p-n3K" id="eNH-LT-7u7"/>
+                <outlet property="bottomImgView" destination="TWd-c2-ZQV" id="O80-mw-OMW"/>
+                <outlet property="bottomScrollView" destination="JMX-Sf-wls" id="E8x-Sl-UWB"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="65A-bf-YwU"/>
+                <outlet property="topImgView" destination="qNQ-qQ-pB1" id="L1m-vc-CVQ"/>
+                <outlet property="topScrollView" destination="IWW-4p-n3K" id="1eK-U1-RSS"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -101,7 +100,7 @@
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="tinted" title="Dismiss"/>
                     <connections>
-                        <action selector="dismissPressed:" destination="-1" eventType="touchUpInside" id="1HD-jt-5r6"/>
+                        <action selector="dismissPressed:" destination="-1" eventType="touchUpInside" id="w3l-80-ZwT"/>
                     </connections>
                 </button>
             </subviews>
