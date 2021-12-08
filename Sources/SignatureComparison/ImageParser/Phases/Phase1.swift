@@ -34,19 +34,16 @@ internal extension ParseImage{
                     continue
                 }
                 
-                let r = bytes[offset]
-                if r != 0 { continue }
-                let g = bytes[offset + 1]
-                if g != 0 { continue }
-                let b = bytes[offset + 2]
-                if b != 0 { continue }
-                let a = bytes[offset + 3]
-                if a <= 0 { continue }
-                
-                let newPixel = ImagePixel(black, xPos: x, yPos: y)
-                imagePixelsArray.append(newPixel)
-                pixelImageMap[PixelCoordinate(x: x, y: y)] = newPixel
-                imagePixelsPhase1[y][x] = black.rawValue
+                // bytes[offset] == r
+                // bytes[offset + 1] == g
+                // bytes[offset + 2] == b
+                // bytes[offset + 3] == a
+                if bytes[offset] == 0 && bytes[offset + 1] == 0 && bytes[offset + 2] == 0 && bytes[offset + 3] > 0{
+                    let newPixel = ImagePixel(black, xPos: x, yPos: y)
+                    imagePixelsArray.append(newPixel)
+                    pixelImageMap[PixelCoordinate(x: x, y: y)] = newPixel
+                    imagePixelsPhase1[y][x] = black.rawValue
+                }
             }
         }
     }
