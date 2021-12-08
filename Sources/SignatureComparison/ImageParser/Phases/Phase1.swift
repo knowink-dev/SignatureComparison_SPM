@@ -28,6 +28,13 @@ internal extension ParseImage{
                 //check with conditions to make sure it is a black pixel
                 let offset = (y * cgImage.bytesPerRow) + (x * bytesPerPixel)
                 
+                debugPrint("")
+                debugPrint("Position - x:\(x)  y:\(y)")
+                debugPrint("R: \(bytes[offset])")
+                debugPrint("G: \(bytes[offset + 1])")
+                debugPrint("B: \(bytes[offset + 2])")
+                debugPrint("A: \(bytes[offset + 3])")
+                
                 if x == 0 || y == 0 || y == yBoundary || x == xBoundary {
                     let newPixel = ImagePixel(white, xPos: x, yPos: y)
                     pixelImageMap[PixelCoordinate(x: x, y: y)] = newPixel
