@@ -43,7 +43,14 @@ internal extension ParseImage{
                 // bytes[offset + 1] == g
                 // bytes[offset + 2] == b
                 // bytes[offset + 3] == a
-                if bytes[offset] == 0 && bytes[offset + 1] == 0 && bytes[offset + 2] == 0 && bytes[offset + 3] > 0{
+                if !(bytes[offset] == 255 &&
+                     bytes[offset + 1] == 255 &&
+                     bytes[offset + 2] == 255 &&
+                     bytes[offset + 3] == 255) &&
+                    !(bytes[offset] == 0 &&
+                         bytes[offset + 1] == 0 &&
+                         bytes[offset + 2] == 0 &&
+                         bytes[offset + 3] == 0){
                     let newPixel = ImagePixel(black, xPos: x, yPos: y)
                     imagePixelsArray.append(newPixel)
                     pixelImageMap[PixelCoordinate(x: x, y: y)] = newPixel
