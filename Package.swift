@@ -19,7 +19,7 @@ let package = Package(
         .target(
             name: "SignatureComparison",
             dependencies: [],
-            resources: [.copy("Resources")]
+            resources: [.process("CustomResources")]
         ),
         .testTarget(
             name: "SignatureComparisonTests",
